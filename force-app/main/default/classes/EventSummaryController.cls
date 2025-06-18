@@ -30,4 +30,32 @@ public class EventSummaryController {
                       ORDER BY Due_Date__c DESC];
         return openTasks;
     }
+    public Static Map<String, Decimal> getExpensesByCategory(Id eventPlanId) {
+        Map<String, Decimal> expensesByCategory = new Map<String, Decimal>();
+        // Write SOQL query and aggregate function here
+        // Use GROUP BY to group results by Category__c
+        // Use SUM() to calculate total expenses
+        List<AggregateResult> results = [SELECT Category__c, SUM(Amount__c) totalExpense
+                FROM Event_Expense__c
+                WHERE Associated_Event__c = :eventPlanId
+                GROUP BY Category__c];
+                // Cast Category__c and totalExpense from the AggregatedResult object and put them)
+                for (AggregateResult ar : results) {
+                    string categoryName = (String) ar.get('Category__c');
+                    decimal totalExpenses = (decimal) ar.get('totalExpense');
+                    expensesByCategory.put(categoryName, totalExpenses);
+                }  
+        return expensesByCategory;
+    }
+    public Static Event_Expense__c getMostExpensiveExpense(Id eventPlanId) {
+        Event_Expense__c mostExpensiveExpense = 
+            // Write SOQL query here
+        // Use ORDER BY to sort expenses by Amount__c in descending order
+        // Use LIMIT to retrieve only one record
+        [SELECT Name, Category__c, Amount__c, Associated_Event__c FROM Event_Expense__c
+        WHERE Associated_Event__c = :eventPlanId
+        ORDER BY Amount__c DESC
+        LIMIT 1];
+        return mostExpensiveExpense;
+    }
 }

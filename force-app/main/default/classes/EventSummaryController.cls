@@ -16,6 +16,9 @@ public class EventSummaryController {
             Integer count = (Integer) ar.get('taskCount');
             //put in the method
             taskStatusSummary.put(status, count);
+	// you can also put it in a straight line which is the most common practice
+	// taskStatusSummary.put((String) ar.get('Task_Status__c'), (Integer) ar.get('taskCount'));
+
         }
         return taskStatusSummary;
     }

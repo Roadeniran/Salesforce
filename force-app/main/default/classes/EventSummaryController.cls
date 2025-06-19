@@ -9,7 +9,7 @@ public class EventSummaryController {
             GROUP BY Task_Status__c
         ];
 
-        // Populate the map with status as key and count as value
+        // Populate the map with status as key and count as values
         for (AggregateResult ar : results) {
             // cast in string and integer datatype respectively
             String status = (String) ar.get('Task_Status__c');
